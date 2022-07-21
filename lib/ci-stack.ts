@@ -102,6 +102,7 @@ export class CIStack extends Stack {
     const importedOidcConfigValuesSecretBucketValue = Fn.importValue(`${CIConfigStack.OIDC_CONFIGURATION_VALUE_SECRET_EXPORT_VALUE}`);
     const certificateArn = Secret.fromSecretCompleteArn(this, 'certificateArn', importedArnSecretBucketValue.toString());
     const importedReloadPasswordSecretsArn = Fn.importValue(`${CIConfigStack.CASC_RELOAD_TOKEN_SECRET_EXPORT_VALUE}`);
+    const importedWindowsAgentPasswordSecretsArn = Fn.importValue(`${CIConfigStack.WINDOWS_AGENT_PASSWORD_SECRET_EXPORT_VALUE}`);
     const listenerCertificate = ListenerCertificate.fromArn(certificateArn.secretValue.toString());
     const agentNode = new AgentNodes();
     const agentNodes: AgentNodeProps[] = [agentNode.AL2_X64, agentNode.AL2_X64_DOCKER_HOST, agentNode.AL2_X64_DOCKER_HOST_PERF_TEST,
@@ -114,6 +115,7 @@ export class CIStack extends Stack {
       dataRetention: props.dataRetention ?? false,
       envVarsFilePath: props.envVarsFilePath ?? '',
       reloadPasswordSecretsArn: importedReloadPasswordSecretsArn.toString(),
+      WindowsAgentPasswordSecretsArn: importedWindowsAgentPasswordSecretsArn.toString(),
       sslCertContentsArn: importedContentsSecretBucketValue.toString(),
       sslCertChainArn: importedContentsChainBucketValue.toString(),
       sslCertPrivateKeyContentsArn: importedCertSecretBucketValue.toString(),

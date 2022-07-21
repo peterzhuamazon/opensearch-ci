@@ -27,6 +27,8 @@ export class CIConfigStack extends Stack {
 
     static readonly CASC_RELOAD_TOKEN_SECRET_EXPORT_VALUE: string = 'casc';
 
+    static readonly WINDOWS_AGENT_PASSWORD_SECRET_EXPORT_VALUE: string = 'windowsAgentPassword';
+
     constructor(scope: Construct, id: string, props?: StackProps) {
       super(scope, id, props);
 
@@ -49,6 +51,9 @@ export class CIConfigStack extends Stack {
         description: 'OIDC params in JSON format',
       });
       const CascReloadTokenValuesSecret = new Secret(this, 'CascReloadTokenValue', {
+        description: 'Reload token (password) required for configuration as code plugin',
+      });
+      const WindowsAgentPasswordValueSecret = new Secret(this, 'WindowsAgentPasswordValue', {
         description: 'Reload token (password) required for configuration as code plugin',
       });
 
@@ -85,6 +90,11 @@ export class CIConfigStack extends Stack {
       new CfnOutput(this, 'cascSecretValue', {
         value: CascReloadTokenValuesSecret.secretArn,
         exportName: CIConfigStack.CASC_RELOAD_TOKEN_SECRET_EXPORT_VALUE,
+      });
+
+      new CfnOutput(this, 'WindowsAgentPasswordValueSecret', {
+        value: WindowsAgentPasswordValueSecret.secretArn,
+        exportName: CIConfigStack.WINDOWS_AGENT_PASSWORD_SECRET_EXPORT_VALUE,
       });
     }
 }

@@ -12,6 +12,7 @@
     - [Add environment variable](#add-environment-variables)
     - [Assume role](#cross-account-assume-role)
     - [Mac agents](#mac-agents)
+    - [Windows agents](#windows-agents)
   - [Troubleshooting](#troubleshooting)
     - [Main Node](#main-node)
   - [Useful commands](#useful-commands)
@@ -63,6 +64,7 @@ $aws secretsmanager put-secret-value \
 --secret-id MyCASCreloadTokenSecretARN \
 --secret-string CascReloadToken
 ```
+1. Similar to above, add the windows password to secret manager with arn "WindowsAgentPasswordValue", the value must match the one in [Windows Launch Config](./packer/config/windows/launch-config.json) for Jenkins main node to login to the Windows agent through WinRM.
 1. [Optional](#ssl-configuration) Configure the elements of the config stack for SSL configuration
 1. [Optional](#setup-openid-connect-oidc-via-federate) Configure the elements setting up oidc via federate
 1. Deploy the ci-stack, takes ~10 minutes to deploy (parameter values depend on step 2 and step 3)
@@ -152,6 +154,11 @@ Example:
 ```
 npm run cdk deploy OpenSearch-CI-Dev -- -c useSsl=false -c runWithOidc=false -c macAgent=true
 ```
+
+#### Windows agents
+###### Prerequisite
+Make sure there is an existing Windows AMI with necessary requirements, see [packer directory](./packer/README.md) for more information and AMI build commands.
+
 
 #### Runnning additional commands
 In cases where you need to run additional logic/commands, such as adding a cron to emit ssl cert expiry metric, you can pass the commands as a script using `additionalCommands` context parameter.

@@ -61,6 +61,7 @@ export interface JenkinsMainNodeProps extends HttpConfigProps, OidcFederateProps
   readonly sg: SecurityGroup;
   readonly envVarsFilePath: string;
   readonly reloadPasswordSecretsArn: string;
+  readonly WindowsAgentPasswordSecretsArn: string;
   readonly failOnCloudInitError?: boolean;
 }
 
@@ -146,6 +147,7 @@ export class JenkinsMainNode {
         props,
         jenkinsyaml,
         props.reloadPasswordSecretsArn,
+        props.WindowsAgentPasswordSecretsArn,
         this.EFS_ID,
       )),
       blockDevices: [{
@@ -225,7 +227,7 @@ export class JenkinsMainNode {
 
   public static configElements(stackName: string, stackRegion: string, httpConfigProps: HttpConfigProps,
     oidcFederateProps: OidcFederateProps, dataRetentionProps : DataRetentionProps, jenkinsyaml: string,
-    reloadPasswordSecretsArn: string, efsId?: string): InitElement[] {
+    reloadPasswordSecretsArn: string, WindowsAgentPasswordSecretsArn: string, efsId?: string): InitElement[] {
     return [
       InitPackage.yum('wget'),
       InitPackage.yum('openssl'),
@@ -390,6 +392,8 @@ export class JenkinsMainNode {
         : 'echo No changes made to initial_jenkins.yaml with respect to OIDC'),
 
       InitCommand.shellCommand('sleep 30'),
+
+      InitCommand.shellCommand('')
 
       // Reload configuration via Jenkins.yaml
       InitCommand.shellCommand('cp /initial_jenkins.yaml /var/lib/jenkins/jenkins.yaml &&'
