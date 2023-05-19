@@ -163,3 +163,8 @@ cmake --version
 
 # Install zip
 scoop install zip
+
+# Install docker
+scoop install docker
+dockerd --register-service
+cmd.exe /c sc start docker

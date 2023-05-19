@@ -29,5 +29,14 @@ New-Item -Path 'C:\\Users\\Administrator\\jenkins' -ItemType Directory
 echo "NTP Time Syncing"
 cmd /c net time \\pool.ntp.org /set /y
 
+# Enable Hyper-V
+cmd.exe /c bcdedit /set hypervisorlaunchtype auto
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+# Enable Hyper-V Tools
+Get-WindowsFeature Hyper*
+Add-WindowsFeature Hyper-V-Tools
+Add-WindowsFeature Hyper-V-PowerShell
+
 </powershell>
 
