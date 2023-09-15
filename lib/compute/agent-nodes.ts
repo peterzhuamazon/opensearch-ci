@@ -32,8 +32,6 @@ export class AgentNodes {
 
   readonly MACOS12_X64_MULTI_HOST: AgentNodeProps;
 
-  readonly WINDOWS2019_X64: AgentNodeProps;
-
   readonly WINDOWS2019_X64_DOCKER_HOST: AgentNodeProps;
 
   readonly WINDOWS2019_X64_DOCKER_BUILDER: AgentNodeProps;
@@ -184,19 +182,6 @@ export class AgentNodes {
       initScript: 'echo',
       remoteFs: '/var/jenkins',
     };
-    this.WINDOWS2019_X64 = {
-      agentType: 'windows',
-      customDeviceMapping: '/dev/sda1=:300:true:::encrypted',
-      workerLabelString: 'Jenkins-Agent-Windows2019-X64-C54xlarge-Single-Host',
-      instanceType: 'C54xlarge',
-      remoteUser: 'Administrator',
-      maxTotalUses: -1,
-      minimumNumberOfSpareInstances: 1,
-      numExecutors: 1,
-      amiId: 'ami-03b2c75c26036be68',
-      initScript: 'echo',
-      remoteFs: 'C:/Users/Administrator/jenkins',
-    };
     this.WINDOWS2019_X64_DOCKER_HOST = {
       agentType: 'windows',
       customDeviceMapping: '/dev/sda1=:600:true:::encrypted',
@@ -241,7 +226,11 @@ export class AgentNodes {
       minimumNumberOfSpareInstances: 1,
       numExecutors: 1,
       amiId: 'ami-040572cc564dd011c',
-      initScript: 'echo',
+      initScript: 'echo %USERNAME% && dockerd --register-service && net start docker && echo started docker deamon && docker ps && '
+          + 'echo initializing docker images now waiting for 5min && git clone https://github.com/opensearch-project/opensearch-build.git && '
+          + 'bash.exe -c "docker run --rm -it  --name docker-windows-test -d `opensearch-build/docker/ci/get-ci-images.sh '
+          + '-p windows2019-servercore -u opensearch -t build | head -1` bash.exe && sleep 5" && docker exec docker-windows-test whoami && '
+          + 'docker ps && docker stop docker-windows-test && docker ps && rm -rf opensearch-build',
       remoteFs: 'C:/Users/Administrator/jenkins',
     };
     this.AL2_X64_DEFAULT_AGENT = {
