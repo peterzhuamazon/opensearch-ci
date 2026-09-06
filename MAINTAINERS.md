@@ -16,7 +16,7 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 
 | Maintainer    | GitHub ID                                           | Affiliation |
 | ------------- | --------------------------------------------------- | ----------- |
-| Peter Nied    | [peternied](https://github.com/peternied)           | Amazon      |
+| Peter Nied    | [peternied](https://github.com/peternied)           | Airbnb      |
 | Abhinav Gupta | [abhinavGupta16](https://github.com/abhinavGupta16) | Amazon      |
 | Jeff Lu       | [jordarlu](https://github.com/jordarlu)             | Amazon      |
 | Barani Bikshandi | [bbarani](https://github.com/bbarani)    | Amazon      |
