@@ -70,6 +70,14 @@
     },
     {
       "type": "powershell",
+      "elevated_user": "Administrator",
+      "elevated_password": "{{.WinRMPassword}}",
+      "scripts": [
+        "scripts/windows/openssh-setup.ps1"
+      ]
+    },
+    {
+      "type": "powershell",
       "scripts": [
         "scripts/windows/smb-setup-2019-plus.ps1",
         "scripts/windows/longpath-setup.ps1",
@@ -82,6 +90,12 @@
     {
       "type": "windows-restart",
       "pause_before": "30s"
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+        "scripts/windows/docker-prepull.ps1"
+      ]
     },
     {
       "type": "powershell",
